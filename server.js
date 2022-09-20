@@ -1,17 +1,38 @@
+require('dotenv').config()
 const express = require('express');
 const mongoose = require('mongoose');
-const app = express();
-const PORT = 9000;
+const cors = require('cors')
+const fileUpload = require('express-fileupload')
+const cookieParser = require('cookie-parser')
+const path = require('path')
 
-const DB_URL = 'mongodb+srv://psw:19971001@mernmedifinder.omruui3.mongodb.net/?retryWrites=true&w=majority'
+const PORT = process.env.PORT || 9000;
+
+const DB_URL = process.env.MONGODB_URL
+
+const app = express()
+app.use(express.json())
+app.use(cookieParser())
+app.use(cors())
+app.use(fileUpload({
+    useTempFiles: true
+}))
+
+app.use('/user', require('./routes/userRouter'))
 
 
+//connect to DB
 mongoose.connect(DB_URL)
 .then(() => {
     console.log('DB connected');
 })
 .catch((err) => console.log('DB connection error', err));
 
+// app.get('/', (req,res)=>{
+//     res.json({msg: "I am Priyankara"})
+// })
+
+
 app.listen(PORT, ()=>{
-    console.log('App is running on ${PORT}');
+    console.log('App is running on ', PORT);
 })

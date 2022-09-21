@@ -19,6 +19,7 @@ app.use(fileUpload({
 }))
 
 app.use('/user', require('./routes/userRouter'))
+app.use('/api', require('./routes/categoryRouter'))
 
 
 //connect to DB
@@ -29,7 +30,7 @@ mongoose.connect(DB_URL)
 .catch((err) => console.log('DB connection error', err));
 
 // app.get('/', (req,res)=>{
-//     res.json({msg: "I am Priyankara"})
+//     res.json({msg: "I am Priyankara"}) 
 // })
 
 
